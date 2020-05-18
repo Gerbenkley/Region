@@ -58,8 +58,6 @@ function drawBackground() {
         background(35, mouseX/4, 130);
         ijs.setVolume(0, 0.5);
         ijs.pause(1);
-//         desert2.setVolume(0, 0.5);
-//         desert2.pause(1);
         arctic.setVolume(0, 0.5);
         arctic.pause(1);
         mx.length = 0;
@@ -80,7 +78,7 @@ function drawballs() {
                   my[which] = mouseY;
 
                   for (let i = 0; i < num; i++) {
-                // which+1 is the smallest (the oldest in the array)
+                    
                 let index = (which + 1 + i) % num;
                 ellipse(mx[index], my[index], i, i);
                 let c = color(255, 255, 255, 65);
