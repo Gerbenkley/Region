@@ -15,7 +15,7 @@ function preload() {
 
 function setup() {
   arctic.setVolume(0);
-  DesertSounds2.setVolume(0);
+  desert2.setVolume(0);
   createCanvas(windowWidth,windowHeight);
   background(255);
 
