@@ -52,16 +52,18 @@ function drawBackground() {
         desert2.pause(1);
       } else if (mouseX > (windowWidth/3)*2) {
         background(225, mouseX/8, 35);
+        
+        if (desert2.isPlaying() == false) {
+          desert2.play();
+          desert2.setVolume(0.3);
+        }
+        
         ijs.setVolume(0, 0.5);
         ijs.pause(1);
         arctic.setVolume(0, 0.5);
         arctic.pause(1);
         mx.length = 0;
         my.length = 0;
-        if (desert2.isPlaying() == false) {
-          desert2.play();
-          desert2.setVolume(0.3);
-        }
       } else {
         background(35, mouseX/4, 130);
         ijs.setVolume(0, 0.5);
