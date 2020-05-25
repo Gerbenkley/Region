@@ -41,7 +41,7 @@ function draw() {
       seasonfunc();
       drawBackground();
 
-      //drawballs();
+      drawballs();
 
       // stroke(color(0, 0, 255, 70));
       // strokeWeight(4);
