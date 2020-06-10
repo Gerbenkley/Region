@@ -60,16 +60,17 @@ function draw() {
 
         if (clickedvar > 0) {
           drawBackground(); //sounds
+          cursor('cell');
         } else {
           background(scaledx, scaledy, 0, 100);
           stroke(0);
           strokeWeight(0);
           textSize(windowWidth/40);
           text(text1, 50, 50, windowWidth, windowHeight);
-          textSize(windowWidth/60);
-          text(text2, 50, 225, windowWidth, windowHeight);
-          textSize(windowWidth/60);
-          text(text3, 50, 300, windowWidth, windowHeight);
+//           textSize(windowWidth/60);
+//           text(text2, 50, 225, windowWidth, windowHeight);
+//           textSize(windowWidth/60);
+//           text(text3, 50, 300, windowWidth, windowHeight);
           textSize(windowWidth/90);
           text(text4, 50, windowHeight-100, windowWidth, windowHeight);
           drawTree();
