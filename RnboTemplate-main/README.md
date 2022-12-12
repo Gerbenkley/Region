@@ -1,4 +1,4 @@
-# RNBO Webpage Template
+# RNBO Webpage
 
 ## Customizing your web page
 
