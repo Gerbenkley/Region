@@ -37,7 +37,7 @@ function setup() {
 
 function draw() {
   vol = mic.getLevel();
-  vol2 = vol * 10
+  vol2 = vol * 10 + 1
   background(backgroundcolor-vol2*8);
 
   drawStar();
