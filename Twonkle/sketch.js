@@ -1,6 +1,6 @@
 var sterren = [];
 var terrein = [];
-var aantal = 150;
+var aantal = 500;
 let status = 0;
 var mic;
 var vol;
