@@ -1,5 +1,5 @@
 let points = [];
-
+let lineLength;
 
 function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
@@ -14,12 +14,14 @@ function draw() {
     }
 
     if (points.length == 2) {
-        stroke(0);
-        strokeWeight(2);
-        line(points[0].x, points[0].y, points[1].x, points[1].y);
+        drawLine();
     }
 }
-
+function drawLine() {
+    stroke(0);
+    strokeWeight(2);
+    line(points[0].x, points[0].y, points[1].x, points[1].y);
+}
 
 
 
@@ -30,7 +32,13 @@ function mousePressed() {
 
     points.push(new Point(mouseX, mouseY, 0, 100, 0.8));
 
-
+    if (points.length == 2) {
+        lengthLine();
+    }
+}
+function lengthLine() {
+    lineLength = dist(points[0].x, points[0].y, points[1].x, points[1].y);
+    console.log(lineLength);
 }
 
 
@@ -47,8 +55,6 @@ class Point {
         ellipse(this.x, this.y, this.r);
     }
 }
-
-
 
 
 function windowResized() {
