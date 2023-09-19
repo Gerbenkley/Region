@@ -11,23 +11,23 @@ function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
     background(250, 240, 215, 100);
 
-        // audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        // canvas.mouseClicked(startAudioContext);
-        // audioContext.resume().then(() => {
-        // console.log('playback resumed successfully');
-        // });
-        //loadRNBO();
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        canvas.mouseClicked(startAudioContext);
+        audioContext.resume().then(() => {
+        console.log('playback resumed successfully');
+        });
+        loadRNBO();
     
 }
 
-// async function loadRNBO() {
-//     const { createDevice } = RNBO;
-//     await audioContext.resume();
-//     const rawPatcher = await fetch('template.export.json');
-//     const patcher = await rawPatcher.json();
-//     device = await createDevice({ context: audioContext, patcher});
-//     device.node.connect(audioContext.destination);
-// }
+async function loadRNBO() {
+    const { createDevice } = RNBO;
+    await audioContext.resume();
+    const rawPatcher = await fetch('squares.export.json');
+    const patcher = await rawPatcher.json();
+    device = await createDevice({ context: audioContext, patcher});
+    device.node.connect(audioContext.destination);
+}
 
 function startAudioContext() {
     if (audioContext.state === 'suspended') {
@@ -54,6 +54,18 @@ function draw() {
 
         fill(randR, randG, randB);
         rect(randx-randS1/2, randy-randS2/2, randS1, randS2);
+
+        let rMid = random(144);
+        let midiChannel = 0;
+        let noteOnMessage = [
+            144 + midiChannel, // Code for a note on: 10010000 & midi channel (0-15)
+            rMid, // MIDI Note
+            100 // MIDI Velocity
+        ];
+
+        const { TimeNow, MIDIEvent } = RNBO;
+        let noteOnEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000, 0, noteOnMessage);
+        device.scheduleEvent(noteOnEvent);
     }
 }
 
