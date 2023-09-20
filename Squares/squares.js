@@ -1,8 +1,8 @@
-<<<<<<< Updated upstream
 let audioContext;
 let device;
+let loadrnbo = 0;
 
-let r;
+let randnumb;
 let randx;
 let randy;
 let randS1;
@@ -11,26 +11,28 @@ let randS2;
 function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
     background(250, 240, 215, 100);
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        canvas.mouseClicked(startAudioContext);
-        audioContext.resume().then(() => {
+        //Create audio context, by clicking on canvas
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    canvas.mouseClicked(startAudioContext);
+    audioContext.resume().then(() => {
         console.log('playback resumed successfully');
-        });
-        loadRNBO();
-    
+     });
+    loadRNBO();
 }
 
 async function loadRNBO() {
+        //Create the Device
     const { createDevice } = RNBO;
-    await audioContext.resume();
     const rawPatcher = await fetch('squares.export.json');
     const patcher = await rawPatcher.json();
     device = await createDevice({ context: audioContext, patcher});
     device.node.connect(audioContext.destination);
+        //Prevent draw(); from happening before loaded device
+    loadrnbo = 1;
 }
 
 function startAudioContext() {
+        //Function to double check the audioContext
     if (audioContext.state === 'suspended') {
       audioContext.resume();
     }
@@ -38,122 +40,36 @@ function startAudioContext() {
 
 function draw() {
     background(250, 240, 215, 1);
+        //Now check if device = loaded & audioContext = running
+    if (loadrnbo === 1 && audioContext.state === 'running') {
 
-    r = random(10);
-    if (r > 8) {
-        randS1 = random(150);
-        randS2 = random(150);
-        randx = random(windowWidth);
-        randy = random(windowHeight);
-
-        stroke(0);
-        strokeWeight(5);
-
-        let randR = random(100);
-        let randG = random(255);
-        let randB = random(255);
-
-        fill(randR, randG, randB);
-        rect(randx-randS1/2, randy-randS2/2, randS1, randS2);
-
-        let rMid = random(144);
-        let midiChannel = 0;
-        let noteOnMessage = [
-            144 + midiChannel, // Code for a note on: 10010000 & midi channel (0-15)
-            rMid, // MIDI Note
-            100 // MIDI Velocity
-        ];
-
-        const { TimeNow, MIDIEvent } = RNBO;
-        let noteOnEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000, 0, noteOnMessage);
-        device.scheduleEvent(noteOnEvent);
-    }
+        randnumb = random(10);
+        if (randnumb > 7) {
+                //Generate some random shit
+            randx = random(windowWidth);
+            randy = random(windowHeight);
+            randS1 = random(150);
+            randS2 = random(150);
+            let randR = random(100);
+            let randG = random(255);
+            let randB = random(255);
+                //Make a random rectangle somewhere
+            stroke(0);
+            strokeWeight(5);
+            fill(randR, randG, randB);
+            rect(randx-randS1/2, randy-randS2/2, randS1, randS2);
+                //Make some Midi data
+            let rMid = random(144);
+            let midiChannel = 0;
+            let noteOnMessage = [144 + midiChannel, rMid, 100];
+                //Send midi message to device
+            const { TimeNow, MIDIEvent } = RNBO;
+            let noteOnEvent = new RNBO.MIDIEvent(TimeNow, 0, noteOnMessage);
+            device.scheduleEvent(noteOnEvent);
+        }
+    } 
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-=======
-let audioContext;
-let device;
-
-let r;
-let randx;
-let randy;
-let randS1;
-let randS2;
-
-let mousepressed = 0;
-
-async function setup() {
-    canvas = createCanvas(windowWidth,windowHeight);
-    background(250, 240, 215, 100);
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        //let context = new WAContext();
-        const device = await RNBO.createDevice({ audioContext });
-        canvas.mouseClicked(startAudioContext);
-        audioContext.resume().then(() => {
-        console.log('playback resumed successfully');
-        });
-        loadRNBO();
-    
-}
-
-async function loadRNBO() {
-    const { createDevice } = RNBO;
-    await audioContext.resume();
-    const rawPatcher = await fetch('squares.export.json');
-    const patcher = await rawPatcher.json();
-    device = await createDevice({ context: audioContext, patcher});
-    device.node.connect(audioContext.destination);
-}
-
-function startAudioContext() {
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
-    }
-}
-
-async function draw() {
-    
-    background(250, 240, 215, 1);
-    await audioContext.resume();
-    r = random(10);
-    if (r > 8) {
-        randS1 = random(150);
-        randS2 = random(150);
-        randx = random(windowWidth);
-        randy = random(windowHeight);
-
-        stroke(0);
-        strokeWeight(5);
-
-        let randR = random(100);
-        let randG = random(255);
-        let randB = random(255);
-
-        fill(randR, randG, randB);
-        rect(randx-randS1/2, randy-randS2/2, randS1, randS2);
-
-        let rMid = random(50);
-        let midiChannel = 0;
-        let noteOnMessage = [
-            144 + midiChannel, // Code for a note on: 10010000 & midi channel (0-15)
-            55, // MIDI Note
-            100 // MIDI Velocity
-        ];
-
-        const { TimeNow, MIDIEvent } = RNBO;
-        let noteOnEvent = new MIDIEvent(TimeNow, 0, noteOnMessage);
-        device.scheduleEvent(noteOnEvent);
-    }
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
-
-function mousePressed() {
-    mousepressed = 1;
->>>>>>> Stashed changes
 }
