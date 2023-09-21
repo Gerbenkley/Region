@@ -7,8 +7,9 @@ let rndNumber = 0;
 let text1 = 'Surroundings'
 
 function setup() {
-  //frameRate(144);
+  frameRate(60);
   canvas = createCanvas(windowWidth,windowHeight);
+  pixelDensity(1);
   backgroundcolor = (255, 255, 0, 75);
   background(backgroundcolor);
 
