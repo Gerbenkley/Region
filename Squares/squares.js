@@ -10,6 +10,7 @@ let randS2;
 
 function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
+    pixelDensity(1);
     background(250, 240, 215, 100);
         //Create audio context, by clicking on canvas
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -23,6 +24,7 @@ function setup() {
 async function loadRNBO() {
         //Create the Device
     const { createDevice } = RNBO;
+//await audioContext.resume();
     const rawPatcher = await fetch('squares.export.json');
     const patcher = await rawPatcher.json();
     device = await createDevice({ context: audioContext, patcher});
