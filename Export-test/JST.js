@@ -9,6 +9,7 @@ let text1 = 'Surroundings'
 async function setup() {
   //frameRate(144);
   canvas = createCanvas(windowWidth,windowHeight);
+  pixelDensity(1);
   backgroundcolor = (255, 255, 0, 75);
   background(backgroundcolor);
 
