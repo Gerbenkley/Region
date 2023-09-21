@@ -5,6 +5,7 @@ let device;
 
 async function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
+    pixelDensity(1);
     //background(242, 222, 179, 100);
     console.log("Setup werkt");
 
