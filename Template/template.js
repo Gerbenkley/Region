@@ -4,6 +4,7 @@ let loadrnbo = 0;
 
 async function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
+    pixelDensity(1);
         //Create audio context, by clicking on canvas
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     canvas.mouseClicked(startAudioContext);
