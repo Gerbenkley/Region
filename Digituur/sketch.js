@@ -45,6 +45,7 @@ function setup() {
   desert.setVolume(0);
 
   createCanvas(windowWidth,windowHeight);
+  pixelDensity(1);
   background(255, 255, 0, 75);
 
   flock = new Flock();
