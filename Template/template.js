@@ -1,10 +1,16 @@
+//Easier template made for JS&RNBO by Gerben van der Kleij
+
+
 let audioContext;
 let device;
 let loadrnbo = 0;
 
 async function setup() {
     canvas = createCanvas(windowWidth,windowHeight);
+    frameRate(60);
     pixelDensity(1);
+
+    {
         //Create audio context, by clicking on canvas
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     canvas.mouseClicked(startAudioContext);
@@ -12,28 +18,36 @@ async function setup() {
     console.log('playback resumed successfully');
     });
     loadRNBO();
-    listenRNBO();
+    }
 }
 
 async function loadRNBO() {
-         //Create the Device
+
+    {
+        //Create the Device
     const { createDevice } = RNBO;
-    //await audioContext.resume();
     const rawPatcher = await fetch('template.export.json');
     const patcher = await rawPatcher.json();
     device = await createDevice({ context: audioContext, patcher});
     device.node.connect(audioContext.destination);
+    }
 
+            //Load dependencies (buffers, samples, things)
+        // let dependencies = [];
+        // try {
+        //     const dependenciesResponse = await fetch("dependencies.json");
+        //     dependencies = await dependenciesResponse.json();
+        // } catch (e) {}
 
-//          //Load dependencies (buffers, samples, things)
-//     let dependencies = [];
-//     try {
-//         const dependenciesResponse = await fetch("dependencies.json");
-//         dependencies = await dependenciesResponse.json();
-//     } catch (e) {}
+        // if (dependencies.length)
+        // await device.loadDataBufferDependencies(dependencies);
 
-//   if (dependencies.length)
-//    await device.loadDataBufferDependencies(dependencies);
+            //Listen to messages from device
+        // device.messageEvent.subscribe((ev) => {
+        //     if (ev.tag === "template") {
+        //     console.log(`${ev.tag}: ${ev.payload}`);
+        //     }
+        // });
 
 
 
@@ -41,20 +55,21 @@ async function loadRNBO() {
     loadrnbo = 1;
 }
 
-function listenRNBO() {
-//         //Listen to messages from device
-//     device.messageEvent.subscribe((ev) => {
-//          (ev.taif g === "template") {
-//          console.log(`${ev.tag}: ${ev.payload}`);
-//         }
-// });
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+function startAudioContext() {
+        //Function to double check the audioContext
+    if (audioContext.state === 'suspended') {
+    audioContext.resume();
+    }
 }
 
 function draw() {
     background(252, 240, 215, 100);
         //Now check if device = loaded & audioContext = running
     if (loadrnbo === 1 && audioContext.state === 'running') {
-        //Put draw here
 
         // //Send Normal message to device
         // const { TimeNow, MessageEvent } = RNBO;
@@ -71,16 +86,5 @@ function draw() {
         // const { TimeNow, MIDIEvent } = RNBO;
         // let noteOnEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000, 0, noteOnMessage);
         // device.scheduleEvent(noteOnEvent);
-    }
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
-
-function startAudioContext() {
-        //Function to double check the audioContext
-    if (audioContext.state === 'suspended') {
-    audioContext.resume();
     }
 }
